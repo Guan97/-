@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text"  v-model="num">
+		<h3>{{info}}H1909C有{{num}}位同学</h3>
+		<button v-on:click="num++">加</button>
+		<button @click="num--">减</button>
+	</div>
+	<script type="text/javascript">
+		//实例化VUE对象
+		var app = new Vue({
+			el:"#app",
+			data:{
+				info:"小实训",
+				num:44
+			}
+			
+		});//JSON格式 {"key":value,"key1":value}
+	
+	</script>
+</body>
+</html>

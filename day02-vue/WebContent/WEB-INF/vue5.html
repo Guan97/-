@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./js/vue.js"></script>
+</head>
+<body>
+ <div id="app1">
+ <li>
+ <ul v-for="emp in emps">
+ <input type="text" v-model="emp.name"><br>
+ <input type="text" v-model="emp.age"><br>
+ <input type="checkbox" v-model="emp.hobby" value="篮球" />篮球 
+ <input type="checkbox" v-model="emp.hobby" value="排球" />排球 
+ <input type="checkbox" v-model="emp.hobby" value="足球" />足球<br/>
+  
+ 
+   <button @click="emp.age++">加</button>
+   <button @click="emp.age--">减</button>
+ </ul>
+   </li>
+ 
+ </div>
+</body>
+<script type="text/javascript">
+   var app=new Vue({
+	 el:"#app1",
+	 data:{
+		 emps:[
+			 { name:"小马",
+		 age:20,
+		 hobby:["足球","排球"]},
+			 { name:"小艾",
+				 age:18,
+				 hobby:["排球","篮球"]}
+              ]
+	 },
+	 methods:{
+		 add(){
+		this.emp.age++
+		 },
+		 rem(){
+			this.emp.age--
+				 }
+	 }
+	
+   })
+
+</script>
+</html>
