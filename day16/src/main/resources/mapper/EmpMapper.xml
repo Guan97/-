@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaoshu.dao.EmpMapper">
+<select id="findEmpPage" parameterType="empVo" resultType="empVo">
+select * from emp,dept
+<where>
+emp.did=dept.did
+<if test="name!=null and name!=''">
+and name like '%${name}%'
+</if>
+<if test="did!=null and did!=0">
+and emp.did=#{did}
+</if>
+<if test="startbirthday!=null">
+and birthday &gt;=#{startbirthday}
+</if>
+<if test="endbirthday!=null">
+and birthday &lt;=#{endbirthday}
+</if>
+</where>
+</select>
+  
+  <select id="existUserWithUserName" resultType="emp" parameterType="emp">
+  select * from emp where name=#{name}
+  </select>
+  
+  <update id="updateEmp" parameterType="emp">
+  update emp set name=#{name},sex=#{sex},age=#{age},birthday=#{birthday},photo=#{photo},did=#{did} where id=#{id}
+  </update>
+  
+  <insert id="addEmp" parameterType="emp">
+  insert into emp values(null,#{name},#{sex},#{age},#{birthday},#{photo},#{did})
+  </insert>
+  
+  <delete id="deleteEmp" parameterType="int">
+  delete from emp where id=#{id}
+  </delete>
+  
+  <select id="echartsEmp" resultType="empVo" parameterType="empVo">
+  select dept.dname,count(emp.id) as num from dept left join emp on dept.did=emp.did group by dept.dname
+  </select>
+  
+</mapper>
