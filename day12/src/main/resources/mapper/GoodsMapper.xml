@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.dao.GoodsMapper">
+  <resultMap type="goods" id="goodsAndtype">
+  	<id column="gid" property="gid"/>
+  	<result column="gname" property="gname"/>
+  	<result column="gsex" property="gsex"/>
+  	<result column="ghobby" property="ghobby"/>
+  	<result column="start" property="start"/>
+  	<result column="gbirthday" property="gbirthday"/>
+  	<result column="tid" property="tid"/>
+  	<association property="type" javaType="type">
+  		<id column="tid" property="tid"/>
+  		<result column="tname" property="tname"/>
+  	</association>
+  </resultMap>
+  <select id="selectGoods" parameterType="goods" resultMap="goodsAndtype">
+  	select * from goods,type
+  		<where>
+  			goods.tid = type.tid
+  			<if test="gname!=null and gname!=''">
+  				and gname like '%${gname}%'
+  			</if>
+  			<if test="startbirthday!=null">
+  				and gbirthday &gt;=#{startbirthday}
+  			</if>
+  			<if test="endbirthday!=null">
+  				and gbirthday &lt;=#{endbirthday}
+  			</if>
+  			order by goods.gid asc
+  		</where>
+  </select>
+  <select id="selectGname" parameterType="String" resultType="goods">
+  	select * from goods where gname=#{gname}
+  </select>
+  <insert id="addGoods" parameterType="goods">
+  	insert into goods values(null,#{gname},#{gsex},#{ghobby},#{start},#{gbirthday},#{tid})
+  </insert>
+  <update id="updateGoods" parameterType="goods">
+  	update goods set gname=#{gname},gsex=#{gsex},ghobby=#{ghobby},start=#{start},gbirthday=#{gbirthday},tid=#{tid} where gid=#{gid}
+  </update>
+  <delete id="deleteGoods" parameterType="Integer">
+  	delete from goods where gid=#{gid}
+  </delete>
+</mapper>
