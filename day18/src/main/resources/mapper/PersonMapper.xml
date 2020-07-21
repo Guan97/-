@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaoshu.dao.PersonMapper">
+<select id="findUserPage" parameterType="personVo" resultType="personVo">
+select * from express_person,express_company
+<where>
+express_person.cid=express_company.cid
+<if test="name!=null and name!=''">
+and name like '%${name}%'
+</if>
+<if test="beginDate!=null">
+and entrytime &gt;=#{beginDate}
+</if>
+<if test="endDate!=null">
+and entrytime &lt;=#{endDate}
+</if>
+<if test="cid!=null and cid!=0">
+and express_person.cid=#{cid}
+</if>
+</where>
+</select>
+  
+  
+  <update id="updatePerson" parameterType="person">
+  update express_person set name=#{name},sex=#{sex},trait=#{trait},entrytime=#{entrytime},createtime=#{createtime},cid=#{cid} where id=#{id}
+  </update>
+  
+  <insert id="addPerson" parameterType="person" useGeneratedKeys="true" keyProperty="id">
+  insert into express_person values(null,#{name},#{sex},#{trait},#{entrytime},#{createtime},#{cid})
+  </insert>
+  
+  
+  <delete id="deleteUser" parameterType="int">
+  delete from express_person where id=#{id}
+  </delete>
+  
+  <select id="echartsPerson" resultType="personVo">
+    select express_company.cname,count(express_person.id) as num from express_company left join express_person on express_company.cid=express_person.cid group by express_company.cname
+  </select>
+  
+</mapper>
